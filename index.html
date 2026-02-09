@@ -711,7 +711,7 @@
 
     <!-- Background Video -->
     <video id="bg-video" loop muted playsinline preload="metadata" poster="">
-        <source src="video.mp4" type="video/mp4">
+        <!-- Video sẽ được load động bằng JavaScript -->
     </video>
 
     <!-- Background Audio -->
@@ -990,12 +990,23 @@
         
         let audioPlaying = false;
         
-        // Giảm chất lượng video trên mobile
+        // Load video phù hợp dựa vào thiết bị
+        const videoSource = document.createElement('source');
         if (isMobile) {
+            // Mobile: load video nhẹ (cần tạo file video-mobile.mp4)
+            // Video này nên: 15-20fps, 720p, bitrate thấp, dưới 5MB
+            videoSource.src = 'video-mobile.mp4';
             bgVideo.style.filter = 'brightness(0.8)';
-            // Reduce video playback rate slightly on mobile for better performance
             bgVideo.playbackRate = 0.95;
+        } else {
+            // PC: load video gốc
+            videoSource.src = 'video.mp4';
         }
+        videoSource.type = 'video/mp4';
+        bgVideo.appendChild(videoSource);
+        
+        // Preload video
+        bgVideo.load();
 
         // Enter screen click
         enterScreen.addEventListener('click', function() {
