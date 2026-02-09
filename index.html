@@ -70,6 +70,14 @@
             z-index: 1;
             filter: brightness(0.9);
         }
+        
+        /* Tắt filter video trên mobile để tăng performance */
+        @media (max-width: 768px) {
+            #bg-video {
+                filter: none;
+                opacity: 0.8;
+            }
+        }
 
         /* Overlay */
         .overlay {
@@ -99,6 +107,14 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+        }
+        
+        /* Tắt backdrop-filter trên mobile */
+        @media (max-width: 768px) {
+            .sound-toggle {
+                backdrop-filter: none;
+                background: rgba(255, 255, 255, 0.3);
+            }
         }
 
         .sound-toggle:hover {
@@ -132,6 +148,14 @@
             font-weight: 600;
             transition: all 0.3s ease;
             animation: slideInRight 0.8s ease;
+        }
+        
+        /* Tắt backdrop-filter trên mobile */
+        @media (max-width: 768px) {
+            .about-btn {
+                backdrop-filter: none;
+                background: rgba(255, 255, 255, 0.3);
+            }
         }
 
         .about-btn:hover {
@@ -192,6 +216,14 @@
             transition: all 0.4s ease;
             overflow-y: auto;
             color: white;
+        }
+        
+        /* Tắt backdrop-filter trên mobile */
+        @media (max-width: 768px) {
+            .about-page {
+                backdrop-filter: none;
+                background: linear-gradient(135deg, rgba(20, 20, 20, 0.98), rgba(40, 40, 40, 0.98));
+            }
         }
 
         .about-page.active {
@@ -418,6 +450,14 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             animation: slideUp 0.8s ease;
         }
+        
+        /* Tắt backdrop-filter trên mobile */
+        @media (max-width: 768px) {
+            .profile-card {
+                backdrop-filter: none;
+                background: rgba(20, 20, 20, 0.95);
+            }
+        }
 
         @keyframes slideUp {
             from {
@@ -541,6 +581,40 @@
             font-size: 16px;
             font-weight: 600;
         }
+        
+        /* Performance optimization cho mobile */
+        @media (max-width: 768px) {
+            /* Giảm animation để tăng performance */
+            * {
+                animation-duration: 0.3s !important;
+            }
+            
+            /* Tắt transform 3D không cần thiết */
+            .avatar {
+                animation: none;
+            }
+            
+            /* Giảm shadow để tăng performance */
+            .profile-card,
+            .about-page {
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            /* Tối ưu hover effects trên mobile */
+            .link-btn:active {
+                transform: scale(0.98);
+            }
+            
+            .link-btn:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            /* Giảm padding cho mobile */
+            .profile-card {
+                padding: 30px 20px;
+            }
+        }
 
         /* Enter Screen */
         .enter-screen {
@@ -636,12 +710,12 @@
     </div>
 
     <!-- Background Video -->
-    <video id="bg-video" loop muted playsinline>
+    <video id="bg-video" loop muted playsinline preload="metadata" poster="">
         <source src="video.mp4" type="video/mp4">
     </video>
 
     <!-- Background Audio -->
-    <audio id="bg-audio" loop>
+    <audio id="bg-audio" loop preload="metadata">
         <source src="audio.mp3" type="audio/mpeg">
     </audio>
 
@@ -900,6 +974,9 @@
     </div>
 
     <script>
+        // Detect mobile và tối ưu performance
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
         // Elements
         const enterScreen = document.getElementById('enterScreen');
         const bgAudio = document.getElementById('bg-audio');
@@ -912,12 +989,28 @@
         const closeBtn = document.getElementById('closeBtn');
         
         let audioPlaying = false;
+        
+        // Giảm chất lượng video trên mobile
+        if (isMobile) {
+            bgVideo.style.filter = 'brightness(0.8)';
+            // Reduce video playback rate slightly on mobile for better performance
+            bgVideo.playbackRate = 0.95;
+        }
 
         // Enter screen click
         enterScreen.addEventListener('click', function() {
             enterScreen.classList.add('hidden');
-            bgAudio.play();
-            bgVideo.play();
+            
+            // Play audio với promise
+            bgAudio.play().catch(err => console.log('Audio play failed:', err));
+            
+            // Play video với promise và error handling
+            bgVideo.play().catch(err => {
+                console.log('Video play failed:', err);
+                // Nếu video không play được, ẩn luôn để không lag
+                bgVideo.style.display = 'none';
+            });
+            
             audioPlaying = true;
             setTimeout(() => {
                 enterScreen.style.display = 'none';
