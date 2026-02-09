@@ -86,7 +86,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.05);
             z-index: 2;
         }
 
@@ -98,7 +98,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
@@ -133,7 +133,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
@@ -184,7 +184,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 9998;
             opacity: 0;
             visibility: hidden;
@@ -205,7 +205,7 @@
             width: 90%;
             max-width: 800px;
             max-height: 90vh;
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(40, 40, 40, 0.95));
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.4), rgba(40, 40, 40, 0.4));
             backdrop-filter: blur(20px);
             border-radius: 20px;
             border: 2px solid rgba(255, 255, 255, 0.2);
@@ -222,7 +222,7 @@
         @media (max-width: 768px) {
             .about-page {
                 backdrop-filter: none;
-                background: linear-gradient(135deg, rgba(20, 20, 20, 0.98), rgba(40, 40, 40, 0.98));
+                background: linear-gradient(135deg, rgba(20, 20, 20, 0.45), rgba(40, 40, 40, 0.45));
             }
         }
 
@@ -251,7 +251,7 @@
         }
 
         .close-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             transform: rotate(90deg);
         }
 
@@ -423,7 +423,7 @@
         }
 
         .contact-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -440,7 +440,7 @@
         }
 
         .profile-card {
-            background: rgba(20, 20, 20, 0.9);
+            background: rgba(20, 20, 20, 0.3);
             backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 50px 40px;
@@ -455,7 +455,7 @@
         @media (max-width: 768px) {
             .profile-card {
                 backdrop-filter: none;
-                background: rgba(20, 20, 20, 0.95);
+                background: rgba(20, 20, 20, 0.3);
             }
         }
 
@@ -561,7 +561,7 @@
         }
 
         .link-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
@@ -995,7 +995,7 @@
         if (isMobile) {
             // Mobile: load video nhẹ (cần tạo file video-mobile.mp4)
             // Video này nên: 15-20fps, 720p, bitrate thấp, dưới 5MB
-            videoSource.src = 'video-Mobile.mp4';
+            videoSource.src = 'video.mp4';
             bgVideo.style.filter = 'brightness(0.8)';
             bgVideo.playbackRate = 0.95;
         } else {
