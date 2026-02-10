@@ -9,6 +9,21 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Loại bỏ highlight màu xanh khi tap trên mobile */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Cho phép select text ở những nơi cần thiết */
+        p, span, h1, h2, h3, h4, h5, h6 {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
 
         body {
@@ -103,11 +118,11 @@
 
         .enter-loading-bar {
             height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #ffffff 0%, #e0e0e0 100%);
             width: 0%;
             transition: width 0.3s ease;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
         .enter-loading-percentage {
@@ -121,17 +136,17 @@
         .enter-button {
             margin-top: 30px;
             padding: 15px 40px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
-            color: white;
+            color: #000;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
         }
 
         .enter-button.visible {
@@ -141,11 +156,15 @@
 
         .enter-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .enter-button:active {
             transform: translateY(0);
+            background: rgba(230, 230, 230, 0.9);
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
         }
 
         /* Video Background - Tối ưu cho cả mobile và PC */
