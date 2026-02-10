@@ -17,20 +17,49 @@
             background: #000;
         }
 
-        /* Enter Screen */
+        /* Loading Screen (Enter Screen) */
         .enter-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0a0a0a 100%);
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
             transition: opacity 0.5s ease;
+            overflow: hidden;
+        }
+
+        /* Anime Character Background - Full Screen */
+        .enter-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('anime-character.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.25;
+            filter: blur(2px);
+            z-index: 1;
+        }
+
+        /* Dark overlay để text dễ đọc hơn */
+        .enter-screen::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
         }
 
         .enter-screen.hidden {
@@ -41,25 +70,54 @@
         .enter-content {
             text-align: center;
             color: white;
+            position: relative;
+            z-index: 2;
         }
 
         .enter-content h1 {
             font-size: 48px;
             margin-bottom: 20px;
-            animation: pulse 2s ease-in-out infinite;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .enter-content p {
             font-size: 20px;
-            opacity: 0.9;
+            opacity: 0.7;
+            margin-bottom: 40px;
+            color: #999;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .enter-loading-bar-container {
+            width: 350px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Video Background */
+        .enter-loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .enter-loading-percentage {
+            margin-top: 20px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+        }
+
+        /* Video Background - Tối ưu cho cả mobile và PC */
         #bg-video {
             position: fixed;
             top: 0;
@@ -68,29 +126,37 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
-            filter: brightness(0.9);
+            opacity: 0;
+            transition: opacity 1s ease;
         }
         
-        /* Tắt filter video trên mobile để tăng performance */
-        @media (max-width: 768px) {
-            #bg-video {
-                filter: none;
-                opacity: 0.8;
-            }
+        #bg-video.loaded {
+            opacity: 1;
         }
 
-        /* Overlay */
+        /* Fallback background nếu video không load được */
+        .video-fallback {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            z-index: 0;
+        }
+
+        /* Overlay - Giống nhau cho cả mobile và PC */
         .overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.3);
             z-index: 2;
         }
 
-        /* Sound Toggle Button */
+        /* Sound Toggle Button - Đồng nhất */
         .sound-toggle {
             position: fixed;
             top: 20px;
@@ -98,8 +164,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
             z-index: 1000;
@@ -108,18 +173,14 @@
             justify-content: center;
             transition: all 0.3s ease;
         }
-        
-        /* Tắt backdrop-filter trên mobile */
-        @media (max-width: 768px) {
-            .sound-toggle {
-                backdrop-filter: none;
-                background: rgba(255, 255, 255, 0.3);
-            }
-        }
 
         .sound-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             transform: scale(1.1);
+        }
+
+        .sound-toggle:active {
+            transform: scale(0.95);
         }
 
         .sound-toggle svg {
@@ -128,13 +189,12 @@
             fill: white;
         }
 
-        /* About Me Button - Góc trên bên phải */
+        /* About Me Button - Đồng nhất */
         .about-btn {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
             padding: 12px 24px;
@@ -149,22 +209,16 @@
             transition: all 0.3s ease;
             animation: slideInRight 0.8s ease;
         }
-        
-        /* Tắt backdrop-filter trên mobile */
-        @media (max-width: 768px) {
-            .about-btn {
-                backdrop-filter: none;
-                background: rgba(255, 255, 255, 0.3);
-            }
-        }
 
         .about-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
-
+        .about-btn:active {
+            transform: scale(0.98);
+        }
 
         @keyframes slideInRight {
             from {
@@ -196,7 +250,7 @@
             visibility: visible;
         }
 
-        /* About Page */
+        /* About Page - Đồng nhất */
         .about-page {
             position: fixed;
             top: 50%;
@@ -205,11 +259,10 @@
             width: 90%;
             max-width: 800px;
             max-height: 90vh;
-            background: linear-gradient(135deg, rgba(15, 15, 15, 0.88), rgba(25, 25, 25, 0.88));
-            backdrop-filter: blur(20px);
+            background: rgba(20, 20, 20, 0.95);
             border-radius: 20px;
             border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
             z-index: 9999;
             opacity: 0;
             visibility: hidden;
@@ -217,19 +270,30 @@
             overflow-y: auto;
             color: white;
         }
-        
-        /* Tắt backdrop-filter trên mobile */
-        @media (max-width: 768px) {
-            .about-page {
-                backdrop-filter: none;
-                background: linear-gradient(135deg, rgba(15, 15, 15, 0.88), rgba(25, 25, 25, 0.88));
-            }
-        }
 
         .about-page.active {
             opacity: 1;
             visibility: visible;
             transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Scrollbar styling */
+        .about-page::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .about-page::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .about-page::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .about-page::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         /* Close Button */
@@ -251,8 +315,12 @@
         }
 
         .close-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             transform: rotate(90deg);
+        }
+
+        .close-btn:active {
+            transform: rotate(90deg) scale(0.9);
         }
 
         .close-btn::before,
@@ -423,9 +491,13 @@
         }
 
         .contact-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:active {
+            transform: translateY(0);
         }
 
         /* Main Container */
@@ -440,8 +512,7 @@
         }
 
         .profile-card {
-            background: rgba(20, 20, 20, 0.3);
-            backdrop-filter: blur(20px);
+            background: rgba(20, 20, 20, 0.85);
             border-radius: 30px;
             padding: 50px 40px;
             max-width: 500px;
@@ -449,14 +520,6 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             animation: slideUp 0.8s ease;
-        }
-        
-        /* Tắt backdrop-filter trên mobile */
-        @media (max-width: 768px) {
-            .profile-card {
-                backdrop-filter: none;
-                background: rgba(20, 20, 20, 0.3);
-            }
         }
 
         @keyframes slideUp {
@@ -496,10 +559,10 @@
             background: #43b581;
             border-radius: 50%;
             border: 4px solid rgba(20, 20, 20, 0.9);
-            animation: pulse 2s infinite;
+            animation: statusPulse 2s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes statusPulse {
             0%, 100% {
                 box-shadow: 0 0 0 0 rgba(67, 181, 129, 0.7);
             }
@@ -561,9 +624,13 @@
         }
 
         .link-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .link-btn:active {
+            transform: translateY(-1px);
         }
 
         .link-btn svg {
@@ -581,113 +648,103 @@
             font-size: 16px;
             font-weight: 600;
         }
-        
-        /* Performance optimization cho mobile */
-        @media (max-width: 768px) {
-            /* Giảm animation để tăng performance */
-            * {
-                animation-duration: 0.3s !important;
-            }
-            
-            /* Tắt transform 3D không cần thiết */
-            .avatar {
-                animation: none;
-            }
-            
-            /* Giảm shadow để tăng performance */
-            .profile-card,
-            .about-page {
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            }
-            
-            /* Tối ưu hover effects trên mobile */
-            .link-btn:active {
-                transform: scale(0.98);
-            }
-            
-            .link-btn:hover {
-                transform: none;
-                box-shadow: none;
-            }
-            
-            /* Giảm padding cho mobile */
-            .profile-card {
-                padding: 30px 20px;
-            }
-        }
 
-        /* Enter Screen */
-        .enter-screen {
+        /* Loading indicator */
+        .loading-indicator {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            cursor: pointer;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 2;
+            opacity: 1;
             transition: opacity 0.5s ease;
+            text-align: center;
         }
 
-        .enter-screen.hidden {
+        .loading-indicator.hidden {
             opacity: 0;
             pointer-events: none;
         }
 
-        .enter-text {
-            font-size: 28px;
-            color: white;
-            font-weight: 700;
-            text-align: center;
-            animation: fadeIn 1s ease;
+        .loading-text {
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
-        .enter-subtitle {
-            font-size: 16px;
+        .loading-bar-container {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .loading-percentage {
+            margin-top: 15px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.7);
-            font-weight: 400;
-            margin-top: 10px;
-            text-align: center;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @media (max-width: 480px) {
+            .loading-bar-container {
+                width: 250px;
+            }
         }
 
-        /* Mobile Responsive */
+        /* Mobile Responsive - Đồng nhất hóa */
         @media (max-width: 768px) {
             .profile-card {
-                padding: 30px 20px;
+                padding: 40px 25px;
+                border-radius: 25px;
             }
 
             .username {
-                font-size: 24px;
+                font-size: 28px;
             }
 
             .about-content {
-                padding: 60px 20px 40px;
+                padding: 60px 25px 40px;
             }
 
             .about-header h1 {
-                font-size: 24px;
+                font-size: 28px;
+            }
+
+            .about-header .subtitle {
+                font-size: 16px;
+            }
+
+            .about-section h2 {
+                font-size: 22px;
             }
 
             .skills-grid {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+                gap: 12px;
             }
 
             .skill-item {
-                padding: 15px 5px;
+                padding: 18px 8px;
             }
 
             .skill-icon {
-                width: 40px;
-                height: 40px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .skill-name {
+                font-size: 13px;
             }
 
             .contact-buttons {
@@ -697,25 +754,105 @@
             .contact-btn {
                 min-width: 100%;
             }
+
+            .info-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 12px;
+            }
+
+            .hobby-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .enter-content h1 {
+                font-size: 36px;
+            }
+
+            .enter-content p {
+                font-size: 18px;
+            }
+
+            .enter-loading-bar-container {
+                width: 280px;
+            }
+
+            .enter-loading-percentage {
+                font-size: 15px;
+            }
+
+            .about-btn {
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+
+            .sound-toggle {
+                width: 45px;
+                height: 45px;
+            }
+
+            .sound-toggle svg {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .avatar-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .username {
+                font-size: 24px;
+            }
+
+            .bio-text {
+                font-size: 14px;
+            }
+
+            .link-text {
+                font-size: 15px;
+            }
+
+            .about-page {
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .about-content {
+                padding: 60px 20px 30px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Enter Screen -->
+    <!-- Video Fallback Background -->
+    <div class="video-fallback"></div>
+
+    <!-- Enter Screen with Loading -->
     <div class="enter-screen" id="enterScreen">
-        <div>
-            <div class="enter-text">B_soda Bio</div>
-            <div class="enter-subtitle">bấm để tiếp tục</div>
+        <div class="enter-content">
+            <h1>B_soda Bio</h1>
+            <p>Đang tải...</p>
+            <div class="enter-loading-bar-container">
+                <div class="enter-loading-bar" id="enterLoadingBar"></div>
+            </div>
+            <div class="enter-loading-percentage" id="enterLoadingPercentage">0%</div>
         </div>
     </div>
 
     <!-- Background Video -->
-    <video id="bg-video" loop muted playsinline preload="metadata" poster="">
-        <!-- Video sẽ được load động bằng JavaScript -->
+    <video id="bg-video" loop muted playsinline preload="auto">
+        <source src="video.mp4" type="video/mp4">
     </video>
 
     <!-- Background Audio -->
-    <audio id="bg-audio" loop preload="metadata">
+    <audio id="bg-audio" loop preload="auto">
         <source src="audio.mp3" type="audio/mpeg">
     </audio>
 
@@ -723,7 +860,7 @@
     <div class="overlay"></div>
 
     <!-- Sound Toggle Button -->
-    <button class="sound-toggle" id="soundToggle">
+    <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound">
         <svg id="soundIcon" viewBox="0 0 24 24">
             <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
         </svg>
@@ -798,63 +935,63 @@
                 <h2>Sở trường</h2>
                 <div class="skills-grid">
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" loading="lazy">
                         <span class="skill-name">TypeScript</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" loading="lazy">
                         <span class="skill-name">Python</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" alt="PyTorch">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" alt="PyTorch" loading="lazy">
                         <span class="skill-name">PyTorch</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg" alt="Rust">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg" alt="Rust" loading="lazy">
                         <span class="skill-name">Rust</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#" loading="lazy">
                         <span class="skill-name">C#</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" loading="lazy">
                         <span class="skill-name">Java</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" loading="lazy">
                         <span class="skill-name">SQL</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase" loading="lazy">
                         <span class="skill-name">Firebase</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" loading="lazy">
                         <span class="skill-name">Git</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux" loading="lazy">
                         <span class="skill-name">Linux</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" loading="lazy">
                         <span class="skill-name">HTML</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" loading="lazy">
                         <span class="skill-name">CSS</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" alt="Lua">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" alt="Lua" loading="lazy">
                         <span class="skill-name">Lua / LuaU</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" loading="lazy">
                         <span class="skill-name">JavaScript</span>
                     </div>
                     <div class="skill-item">
-                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
+                        <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" loading="lazy">
                         <span class="skill-name">PHP</span>
                     </div>
                 </div>
@@ -885,19 +1022,19 @@
             <div class="about-section">
                 <h2>Kết nối</h2>
                 <div class="contact-buttons">
-                    <a href="https://discord.gg/8cc7sVaJ4T" class="contact-btn" target="_blank">
+                    <a href="https://discord.gg/8cc7sVaJ4T" class="contact-btn" target="_blank" rel="noopener noreferrer">
                         <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
                         </svg>
                         Discord
                     </a>
-                    <a href="https://www.tiktok.com/@baosodar" class="contact-btn" target="_blank">
+                    <a href="https://www.tiktok.com/@baosodar" class="contact-btn" target="_blank" rel="noopener noreferrer">
                         <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74a2.89 2.89 0 0 1 2.31-4.64a2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                         </svg>
                         TikTok
                     </a>
-                    <a href="https://www.youtube.com/@Bao_sodar" class="contact-btn" target="_blank">
+                    <a href="https://www.youtube.com/@Bao_sodar" class="contact-btn" target="_blank" rel="noopener noreferrer">
                         <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                         </svg>
@@ -920,7 +1057,7 @@
         <div class="profile-card">
             <!-- Avatar -->
             <div class="avatar-container">
-                <img src="avatar.png" alt="Avatar" class="avatar">
+                <img src="avatar.png" alt="B_soda Avatar" class="avatar">
                 <div class="status-badge"></div>
             </div>
 
@@ -935,7 +1072,7 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                 </svg>
-                <span>3579</span>
+                <span id="viewCount">3579</span>
             </div>
 
             <!-- Links -->
@@ -947,7 +1084,7 @@
                 </a>
 
                 <!-- Discord -->
-                <a href="#" class="link-btn" data-link="discord">
+                <a href="https://discord.gg/8cc7sVaJ4T" class="link-btn" data-link="discord" target="_blank" rel="noopener noreferrer">
                     <svg fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
                     </svg>
@@ -955,7 +1092,7 @@
                 </a>
 
                 <!-- TikTok -->
-                <a href="#" class="link-btn" data-link="tiktok">
+                <a href="https://www.tiktok.com/@baosodar" class="link-btn" data-link="tiktok" target="_blank" rel="noopener noreferrer">
                     <svg fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74a2.89 2.89 0 0 1 2.31-4.64a2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                     </svg>
@@ -963,7 +1100,7 @@
                 </a>
 
                 <!-- YouTube -->
-                <a href="#" class="link-btn" data-link="youtube">
+                <a href="https://www.youtube.com/@Bao_sodar" class="link-btn" data-link="youtube" target="_blank" rel="noopener noreferrer">
                     <svg fill="currentColor" viewBox="0 0 24 24">
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
@@ -974,7 +1111,7 @@
     </div>
 
     <script>
-        // Detect mobile và tối ưu performance
+        // Detect mobile
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
         // Elements
@@ -987,62 +1124,137 @@
         const aboutPage = document.getElementById('aboutPage');
         const aboutOverlay = document.getElementById('aboutOverlay');
         const closeBtn = document.getElementById('closeBtn');
+        const enterLoadingBar = document.getElementById('enterLoadingBar');
+        const enterLoadingPercentage = document.getElementById('enterLoadingPercentage');
         
         let audioPlaying = false;
-        
-        // Load video phù hợp dựa vào thiết bị
-        const videoSource = document.createElement('source');
-        if (isMobile) {
-            // Mobile: load video nhẹ (cần tạo file video-mobile.mp4)
-            // Video này nên: 15-20fps, 720p, bitrate thấp, dưới 5MB
-            videoSource.src = 'video.mp4';
-            bgVideo.style.filter = 'brightness(0.8)';
-            bgVideo.playbackRate = 0.95;
-        } else {
-            // PC: load video gốc
-            videoSource.src = 'video.mp4';
-        }
-        videoSource.type = 'video/mp4';
-        bgVideo.appendChild(videoSource);
-        
-        // Preload video
-        bgVideo.load();
+        let videoLoaded = false;
+        let loadingComplete = false;
+        let userInteracted = false;
 
-        // Enter screen click
-        enterScreen.addEventListener('click', function() {
-            enterScreen.classList.add('hidden');
+        // Function to play audio
+        function playAudio() {
+            const audioPromise = bgAudio.play();
+            if (audioPromise !== undefined) {
+                audioPromise
+                    .then(() => {
+                        audioPlaying = true;
+                        soundIcon.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
+                        console.log('Audio playing successfully');
+                    })
+                    .catch(err => {
+                        console.log('Audio autoplay prevented:', err);
+                        audioPlaying = false;
+                        soundIcon.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
+                    });
+            }
+        }
+
+        // Auto-start loading and hide enter screen after 5-7 seconds
+        function autoStartLoading() {
+            const minDuration = 5000; // 5 seconds
+            const maxDuration = 7000; // 7 seconds
+            const duration = Math.random() * (maxDuration - minDuration) + minDuration;
+            const startTime = Date.now();
             
-            // Play audio với promise
-            bgAudio.play().catch(err => console.log('Audio play failed:', err));
+            function updateProgress() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min((elapsed / duration) * 100, 100);
+                
+                enterLoadingBar.style.width = progress + '%';
+                enterLoadingPercentage.textContent = Math.floor(progress) + '%';
+                
+                if (progress < 100) {
+                    requestAnimationFrame(updateProgress);
+                } else {
+                    // Loading complete - auto hide enter screen and start content
+                    loadingComplete = true;
+                    setTimeout(() => {
+                        enterScreen.classList.add('hidden');
+                        
+                        // Try to auto-play audio
+                        playAudio();
+                        
+                        // Auto-play video
+                        if (videoLoaded) {
+                            const videoPromise = bgVideo.play();
+                            if (videoPromise !== undefined) {
+                                videoPromise.catch(err => {
+                                    console.log('Video play failed:', err);
+                                });
+                            }
+                        }
+                        
+                        setTimeout(() => {
+                            enterScreen.style.display = 'none';
+                        }, 500);
+                    }, 300);
+                }
+            }
             
-            // Play video với promise và error handling
-            bgVideo.play().catch(err => {
-                console.log('Video play failed:', err);
-                // Nếu video không play được, ẩn luôn để không lag
-                bgVideo.style.display = 'none';
-            });
-            
-            audioPlaying = true;
-            setTimeout(() => {
-                enterScreen.style.display = 'none';
-            }, 500);
+            updateProgress();
+        }
+
+        // Detect user interaction and play audio (only once)
+        function handleUserInteraction() {
+            if (!userInteracted && loadingComplete && !audioPlaying) {
+                userInteracted = true;
+                playAudio();
+                // Remove listeners after first interaction
+                document.removeEventListener('click', handleUserInteraction);
+                document.removeEventListener('touchstart', handleUserInteraction);
+                document.removeEventListener('keydown', handleUserInteraction);
+            }
+        }
+
+        // Add listeners for user interaction
+        document.addEventListener('click', handleUserInteraction);
+        document.addEventListener('touchstart', handleUserInteraction);
+        document.addEventListener('keydown', handleUserInteraction);
+
+        // Start auto-loading immediately when page loads
+        autoStartLoading();
+
+        // Video loading
+        bgVideo.addEventListener('loadeddata', function() {
+            videoLoaded = true;
+            bgVideo.classList.add('loaded');
         });
 
+        bgVideo.addEventListener('error', function(e) {
+            console.log('Video load failed, using fallback background');
+            videoLoaded = false;
+        });
+
+        // Optimize video playback trên mobile
+        if (isMobile) {
+            bgVideo.playbackRate = 1; // Giữ tốc độ bình thường
+        }
+
         // Sound toggle
-        soundToggle.addEventListener('click', function() {
+        soundToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             if (audioPlaying) {
                 bgAudio.pause();
                 audioPlaying = false;
                 soundIcon.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
             } else {
-                bgAudio.play();
-                audioPlaying = true;
-                soundIcon.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
+                playAudio();
+            }
+        });
+
+        // Keep audio playing when switching tabs
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && audioPlaying && bgAudio.paused) {
+                playAudio();
             }
         });
 
         // Open About Page
-        aboutBtn.addEventListener('click', function() {
+        aboutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             aboutPage.classList.add('active');
             aboutOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1065,24 +1277,75 @@
             }
         });
 
-        // Link clicks
-        document.querySelectorAll('.link-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const linkType = this.dataset.link;
-                
-                const links = {
-                    'shop': 'https://your-shop-link.com',
-                    'discord': 'https://discord.gg/8cc7sVaJ4T',
-                    'tiktok': 'https://www.tiktok.com/@baosodar',
-                    'youtube': 'https://www.youtube.com/@Bao_sodar'
-                };
-                
-                if (links[linkType]) {
-                    window.open(links[linkType], '_blank');
-                }
-            });
+        // Xử lý shop link
+        document.querySelector('[data-link="shop"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Shop sắp có! Vui lòng quay lại sau.');
         });
+
+        // View counter animation (optional)
+        function animateViewCounter() {
+            const viewCountElement = document.getElementById('viewCount');
+            const targetCount = 3579;
+            const duration = 2000; // 2 seconds
+            const startTime = Date.now();
+            
+            function updateCount() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentCount = Math.floor(progress * targetCount);
+                viewCountElement.textContent = currentCount;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                }
+            }
+            
+            updateCount();
+        }
+
+        // Start counter animation after loading completes
+        setTimeout(() => {
+            animateViewCounter();
+        }, 6000); // Start after max loading time (7s) - 1s buffer
+
+        // Lazy load images in about section
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            // Observe all skill icons khi about page mở
+            aboutBtn.addEventListener('click', function() {
+                setTimeout(() => {
+                    document.querySelectorAll('.skill-icon[loading="lazy"]').forEach(img => {
+                        imageObserver.observe(img);
+                    });
+                }, 100);
+            }, { once: true });
+        }
+
+        // Performance: Reduce motion for users who prefer it
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelectorAll('*').forEach(el => {
+                el.style.animation = 'none';
+                el.style.transition = 'none';
+            });
+        }
+
+        // Console easter egg
+        console.log('%c🎮 B_soda Bio', 'font-size: 24px; font-weight: bold; color: #667eea;');
+        console.log('%cGiáo chủ Tà giáo Loflis chào mừng bạn!', 'font-size: 14px; color: #764ba2;');
+        console.log('%cNếu bạn thấy được dòng này, có lẽ bạn cũng là lập trình viên 😎', 'font-size: 12px; color: #999;');
     </script>
 </body>
 </html>
