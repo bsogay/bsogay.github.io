@@ -694,6 +694,13 @@
             flex-shrink: 0;
         }
 
+        .emoji-icon img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            display: block;
+        }
+
         .link-text {
             font-size: 16px;
             font-weight: 600;
@@ -1053,7 +1060,7 @@
                 <h2>Sở trường khác</h2>
                 <div style="line-height: 2; color: rgba(255, 255, 255, 0.9);">
                     <p>• Tự học</p>
-                    <p>• Tư duy logic và phân tích (IQ 190)</p>
+                    <p>• Tư duy logic và phân tích (IQ 182)</p>
                     <p>• Kiến thức chuyên môn cao, thực tiễn cao</p>
                     <p>• Hữu thủ Go Đại Đạo, tả thủ Lua Sát Chiêu</p>
                     <p>• Đệ nhất thiên tài Thuật Đạo</p>
@@ -1129,9 +1136,9 @@
             <!-- Links -->
             <div class="links">
                 <!-- Shop -->
-                <a href="#" class="link-btn" data-link="shop">
-                    <div class="emoji-icon">🏪</div>
-                    <div class="link-text">Shop Blox Fruits (Sắp Có)</div>
+                <a href="https://bsoda.store/" class="link-btn" data-link="shop" target="_blank" rel="noopener noreferrer">
+                    <div class="emoji-icon"><img src="shop-icon.png" alt="Shop Blox Fruits"></div>
+                    <div class="link-text">Shop Blox Fruits (chuyên cầy thuê)</div>
                 </a>
 
                 <!-- Discord -->
@@ -1156,6 +1163,14 @@
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                     </svg>
                     <div class="link-text">YouTube</div>
+                </a>
+
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/beorsoda" class="link-btn" data-link="facebook" target="_blank" rel="noopener noreferrer">
+                    <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.406.593 24 1.325 24h11.495v-9.294H9.691v-3.622h3.129V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.794.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.763v2.314h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.406 24 22.674V1.326C24 .593 23.406 0 22.675 0z"/>
+                    </svg>
+                    <div class="link-text">Facebook</div>
                 </a>
             </div>
         </div>
@@ -1319,11 +1334,11 @@
             }
         });
 
-        // Xử lý shop link
-        document.querySelector('[data-link="shop"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Shop sắp có! Vui lòng quay lại sau.');
-        });
+        // Xử lý shop link - hiện tại là link thực, không cần xử lý thêm
+        // document.querySelector('[data-link="shop"]').addEventListener('click', function(e) {
+        //     e.preventDefault();
+        //     alert('Shop sắp có! Vui lòng quay lại sau.');
+        // });
 
         // View counter animation (optional)
         function animateViewCounter() {
