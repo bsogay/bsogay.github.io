@@ -524,6 +524,16 @@
             font-weight: 600;
         }
 
+        /* Center long skill names and allow specific tiles to center in the grid */
+        .skill-name {
+            text-align: center;
+        }
+
+        .center-skill {
+            justify-self: center;
+            align-self: center;
+        }
+
         .contact-buttons {
             display: flex;
             gap: 15px;
@@ -1032,7 +1042,7 @@
                         <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" loading="lazy">
                         <span class="skill-name">Git</span>
                     </div>
-                    <div class="skill-item">
+                    <div class="skill-item center-skill">
                         <img class="skill-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Enterprise Architect" loading="lazy">
                         <span class="skill-name">Enterprise Architect</span>
                     </div>
