@@ -1227,12 +1227,8 @@
             const duration = Math.random() * (maxDuration - minDuration) + minDuration;
             const startTime = Date.now();
                         bgVideo.removeAttribute('loop');
-            bgVideo.addEventListener('ended', () => {
-              bgVideo.currentTime = 0;
-              bgVideo.play().catch(()=>{});
-            });
-            function updateProgress() {2
-                const elapsed = Date.now() - startTime;5
+                        function updateProgress() {
+                                const elapsed = Date.now() - startTime;
                 const progress = Math.min((elapsed / duration) * 100, 100);
                 
                 enterLoadingBar.style.width = progress + '%';
