@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B_soda - Bio</title>
+    <title>ℬ_𝔰𝐨𝐝𝐚 - 我需要血颅蛊</title>
     <style>
         * {
             margin: 0;
@@ -1190,6 +1190,31 @@
     </div>
 
     <script>
+        // Animated tab title (typewriter loop)
+        (function() {
+            const titleFrames = [
+                'ℬ_𝔰𝐨𝐝𝐚 - 我需要血颅蛊',
+                'ℬ_',
+                'ℬ_𝔰',
+                'ℬ_𝔰𝐨',
+                'ℬ_𝔰𝐨𝐝',
+                'ℬ_𝔰𝐨𝐝𝐚',
+                'ℬ_𝔰𝐨𝐝𝐚 - ',
+                'ℬ_𝔰𝐨𝐝𝐚 - 我',
+                'ℬ_𝔰𝐨𝐝𝐚 - 我需',
+                'ℬ_𝔰𝐨𝐝𝐚 - 我需要',
+                'ℬ_𝔰𝐨𝐝𝐚 - 我需要血',
+                'ℬ_𝔰𝐨𝐝𝐚 - 我需要血颅',
+                'ℬ_𝔰𝐨𝐝𝐚 - 我需要血颅蛊'
+            ];
+            let titleFrameIndex = 0;
+            document.title = titleFrames[0];
+            setInterval(function() {
+                titleFrameIndex = (titleFrameIndex + 1) % titleFrames.length;
+                document.title = titleFrames[titleFrameIndex];
+            }, 800);
+        })();
+
         // Detect mobile
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         
